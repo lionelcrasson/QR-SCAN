@@ -29,7 +29,7 @@ namespace QR_SCAN
         {
             InitializeComponent();
         }
-        private string pathRacine ="c:\\Client_scan" ;
+        private string pathRacine ="d:\\Client_scan" ;
         private string pathUser;
         private string pathQR;
 
@@ -73,11 +73,24 @@ namespace QR_SCAN
 
         }
 
+        // Nouveau client (création d'un dossier + intercalaires)
+
         private void bt_new_Click(object sender, EventArgs e)
         {
-            string concat = tb_ID.Text + "-" + tb_nom.Text + "-" + tb_prenom.Text; // change to CB - nom - prenom - id
+            // Création du du code métier pour établir l'authenticité du QR Code dédié aux intercalaires
+
+            string codeMetierQRCode = "Crasson Bayet";        // pourquoi pas. à discuter
+
+            // Contenu du QR Code (nom + prenom + id)
+
+            string contenuQRCode = tb_nom.Text + " - " + tb_prenom.Text + " - " + tb_ID.Text;
+
+            // Concaténation du code métier et du contenu
+
+            string concat = codeMetierQRCode + contenuQRCode;
+
             Bitmap QR = generateQR(concat);
-            this.pathUser = this.pathRacine + "\\Client\\" + concat;
+            this.pathUser = this.pathRacine + "\\Client\\" + contenuQRCode;
             this.pathQR = this.pathUser + "\\" + tb_ID.Text + ".jpg";
             createNewUser();
             System.Drawing.Image QR_Image = QR as System.Drawing.Image;         
@@ -94,19 +107,8 @@ namespace QR_SCAN
         }
         private void createNewUser()
         {
-            System.IO.Directory.CreateDirectory(this.pathUser);
-            /*DirectoryInfo dInfo = new DirectoryInfo(this.pathUser);
-            DirectorySecurity dSecurity = dInfo.GetAccessControl(AccessControlSections.Access);
-            dSecurity.AddAccessRule(
-                new FileSystemAccessRule(
-                    new SecurityIdentifier(WellKnownSidType.AuthenticatedUserSid, null), 
-                    FileSystemRights.FullControl, 
-                    InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
-                    PropagationFlags.NoPropagateInherit, 
-                    AccessControlType.Allow
-                    )
-               );
-            dInfo.SetAccessControl(dSecurity);*/
+            Directory.CreateDirectory(this.pathUser);
+
         }
         private void createUserDoc()
         {
