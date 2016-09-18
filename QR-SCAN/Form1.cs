@@ -68,10 +68,6 @@ namespace QR_SCAN
             
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void bt_new_Click(object sender, EventArgs e)
         {
